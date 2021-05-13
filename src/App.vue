@@ -1,14 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <Background />
   <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
+import Background from './components/Background.vue';
 import HelloWorld from './components/HelloWorld.vue';
 
 @Options({
   components: {
+    Background,
     HelloWorld,
   },
 })
@@ -17,11 +19,5 @@ export default class App extends Vue {}
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
