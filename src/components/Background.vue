@@ -17,7 +17,7 @@ import Emoji from './Emoji.vue';
     Emoji,
   },
 })
-export default class HelloWorld extends Vue {
+export default class Background extends Vue {
   private durationMS = 1000;
 
   emojis: {[key:string]: FlyingEmoji} = {};
