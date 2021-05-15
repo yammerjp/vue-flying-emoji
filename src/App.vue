@@ -1,57 +1,75 @@
 <template>
-  <br/>
-  <br/>
-  <button @click="appButtonClicked()">appButton</button>
-  <button @click="appButton2Clicked()">appButton2</button>
-  <Background ref="background" />
   <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <span style="color: #eeeeee">__________________________________</span>
+  <button @click="appButtonClicked()" ref="button" class="fly-button">{{emoji}}</button>
+  <Background ref="background" />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Background from './components/Background.vue';
 import HelloWorld from './components/HelloWorld.vue';
+import Emoji from './components/Emoji.vue';
 
-type FlyingEmoji = {
-    fromX: number;
-    fromY: number;
-    toX: number;
-    toY: number;
-    emoji: string;
-};
+const emojiList = [
+  '😇',
+  '🤣',
+  '😎',
+  '😭',
+  '🤔',
+  '😂',
+  '😈',
+  '🤖',
+  '👋',
+  '👩‍🦰',
+];
+
+const { random } = Math;
 
 @Options({
   components: {
     Background,
     HelloWorld,
+    Emoji,
   },
 })
+
 export default class App extends Vue {
     $refs!: {
-      background: Background
+      background: Background,
+      button: HTMLElement,
     };
 
-    flyingEmojis: FlyingEmoji[] = [{
-      fromX: 0,
-      fromY: 0,
-      toX: 1000,
-      toY: 1000,
-      emoji: '😎',
-    },
-    {
-      fromX: 0,
-      fromY: 0,
-      toX: 0,
-      toY: 0,
-      emoji: '😎',
-    }];
+    emoji = emojiList[0];
 
     appButtonClicked():void {
-      this.$refs.background.fly(this.flyingEmojis[0]);
+      const clientRect = this.$refs.button.getBoundingClientRect();
+
+      for (let i = 0; i < 50; i += 1) {
+        this.$refs.background.fly({
+          fromX: clientRect.left,
+          fromY: clientRect.top,
+          toX: random() * this.width,
+          toY: random() * this.height,
+          emoji: this.emoji,
+        });
+      }
+      this.emoji = emojiList[Math.floor(random() * emojiList.length)];
     }
 
-    appButton2Clicked():void {
-      this.$refs.background.splash(this.flyingEmojis[1]);
+    height = 0;
+
+    width = 0;
+
+    mounted():void {
+      const updateWidthAndHeight = () => {
+        const rootNode = document.documentElement;
+        this.width = rootNode.clientWidth;
+        this.height = rootNode.clientHeight;
+        console.log(`width: ${this.width}, height: ${this.height}`);
+      };
+      updateWidthAndHeight();
+      window.addEventListener('resize', updateWidthAndHeight);
     }
 }
 </script>
@@ -61,4 +79,15 @@ export default class App extends Vue {
 #app {
 }
 */
+.fly-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    appearance: none;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+}
 </style>
