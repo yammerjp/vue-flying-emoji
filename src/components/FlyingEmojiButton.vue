@@ -1,6 +1,14 @@
 <template>
   <div class="flying-emoji-button-component">
-    <button @click="appButtonClicked()" ref="button" class="fly-button">{{emojiStr}}</button>
+    <div class="fly-button-wrapper">
+    <button @click="flyRandom()" ref="flyRandomButton" class="fly-button">{{emojiStr}}</button>
+    </div>
+    <div class="fly-button-wrapper">
+    <button @click="flyPartyPopper()" ref="flyPartyPopperButton" class="fly-button">🎉</button>
+    </div>
+    <div class="fly-button-wrapper">
+    <button @click="flyStarFace()" ref="flyStarFaceButton" class="fly-button">🤩</button>
+    </div>
     <Background ref="background" />
   </div>
 </template>
@@ -36,7 +44,9 @@ const { random } = Math;
 export default class FlyingEmojiButton extends Vue {
     $refs!: {
       background: Background,
-      button: HTMLElement,
+      flyRandomButton: HTMLElement,
+      flyPartyPopperButton: HTMLElement,
+      flyStarFaceButton: HTMLElement,
     };
 
     height = 0;
@@ -45,19 +55,32 @@ export default class FlyingEmojiButton extends Vue {
 
     emojiStr = emojiList[0];
 
-    appButtonClicked():void {
-      const clientRect = this.$refs.button.getBoundingClientRect();
+    flyRandom():void {
+      const clientRect = this.$refs.flyRandomButton.getBoundingClientRect();
+      this.flyWithEmojiStr(this.emojiStr, clientRect.left, clientRect.top);
+      this.emojiStr = emojiList[Math.floor(random() * emojiList.length)];
+    }
 
+    flyPartyPopper():void {
+      const clientRect = this.$refs.flyPartyPopperButton.getBoundingClientRect();
+      this.flyWithEmojiStr('🎉', clientRect.left, clientRect.top);
+    }
+
+    flyStarFace():void {
+      const clientRect = this.$refs.flyStarFaceButton.getBoundingClientRect();
+      this.flyWithEmojiStr('🤩', clientRect.left, clientRect.top);
+    }
+
+    flyWithEmojiStr(emojiStr: string, buttonX: number, buttonY: number):void {
       for (let i = 0; i < 3; i += 1) {
         this.$refs.background.fly({
-          fromX: clientRect.left,
-          fromY: clientRect.top,
+          fromX: buttonX,
+          fromY: buttonY,
           toX: random() * this.width,
           toY: random() * this.height,
-          emoji: this.emojiStr,
+          emoji: emojiStr,
         });
       }
-      this.emojiStr = emojiList[Math.floor(random() * emojiList.length)];
     }
 
     mounted():void {
@@ -85,5 +108,9 @@ export default class FlyingEmojiButton extends Vue {
     margin: 0;
     padding: 0;
     font-size: 24px;
+}
+.fly-button-wrapper {
+    display: inline-block;
+    margin: 12px;
 }
 </style>
