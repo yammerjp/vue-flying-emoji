@@ -5,5 +5,6 @@ module.exports = {
       entry: 'src/main.ts',
       title: 'vue-flying-emoji',
     }
-  }
+  },
+  publicPath: './',
 }
