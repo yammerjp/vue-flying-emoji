@@ -24,12 +24,23 @@ export default class EmojiCell extends Vue {
   duration!: number;
 
   enter(el: HTMLElement, done: (()=>void)):void {
+    const tl = gsap.timeline();
+    tl.to(el, {
+      duration: this.duration * 0.9,
+      x: this.flyingEmoji.toX - this.flyingEmoji.fromX,
+      y: this.flyingEmoji.toY - this.flyingEmoji.fromY,
+    }).to(el, {
+      opacity: 0,
+      onComplete: done,
+    });
+    /*
     gsap.to(el, {
-      duration: this.duration,
+      duration: this.duration * 0.9,
       x: this.flyingEmoji.toX - this.flyingEmoji.fromX,
       y: this.flyingEmoji.toY - this.flyingEmoji.fromY,
       onComplete: done,
     });
+    */
   }
 
   styleObject = {

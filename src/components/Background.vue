@@ -18,7 +18,7 @@ import EmojiCell from './EmojiCell.vue';
   },
 })
 export default class Background extends Vue {
-  private durationMS = 500;
+  private durationMS = 3000;
 
   flyingEmojis: {[key:string]: FlyingEmojiType} = {};
 
@@ -41,7 +41,7 @@ export default class Background extends Vue {
     }
   }
 
-  timeNow = 0; // 0 - 50ms * 500ms = 10;
+  timeNow = 0; // 0-9 // loop counter with setInterval();
 
   deleteMap: {[key:number]: string[]} = {
     0: [],
@@ -65,18 +65,12 @@ export default class Background extends Vue {
   }
 
   mounted():void {
-    console.log(this);
     setInterval(this.deleteInterval, this.durationMS / 10);
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-a {
-  color: #42b983;
-}
-
 .svg-anime-background {
   position: fixed;
   top: 0px;
@@ -84,25 +78,5 @@ a {
   z-index: -1;
   margin: 0;
   padding: 0;
-
-  width: 100vw;
-  height: 100vh;
-  background: #eeeeee;
 }
-
-.emoji-enter-active, .emoji-leave-active {
-  transition: transform .5s;
-}
-.emoji-enter-from, .emoji-leave-to {
-  transform: translate(1000px, 0px)
-}
-
-/*
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
-}
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-}
-*/
 </style>
