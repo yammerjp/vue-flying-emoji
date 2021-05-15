@@ -9,7 +9,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import gsap from 'gsap';
-import { FlyingEmoji } from '../types/flyingEmoji';
+import { FlyingEmojiType } from '../types/flyingEmojiType';
 
 @Options({
   props: {
@@ -18,8 +18,8 @@ import { FlyingEmoji } from '../types/flyingEmoji';
   },
 })
 
-export default class HelloWorld extends Vue {
-  flyingEmoji!: FlyingEmoji;
+export default class EmojiCell extends Vue {
+  flyingEmoji!: FlyingEmojiType;
 
   duration!: number;
 

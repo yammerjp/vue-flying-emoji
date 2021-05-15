@@ -1,4 +1,4 @@
-type FlyingEmoji = {
+type FlyingEmojiType = {
     fromX: number;
     fromY: number;
     toX: number;
@@ -7,4 +7,4 @@ type FlyingEmoji = {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export type { FlyingEmoji };
+export type { FlyingEmojiType };

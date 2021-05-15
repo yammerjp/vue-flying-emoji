@@ -1,7 +1,7 @@
 <template>
   <div class="svg-anime-background">
     <div v-for="key of emojiKeys" :key="key">
-      <Emoji :flyingEmoji="emojis[key]" :duration="durationMS/1000"/>
+      <EmojiCell :flyingEmoji="flyingEmojis[key]" :duration="durationMS/1000"/>
     </div>
   </div>
 </template>
@@ -9,30 +9,64 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import { v4 as uuidv4 } from 'uuid';
-import { FlyingEmoji } from '../types/flyingEmoji';
-import Emoji from './Emoji.vue';
+import { FlyingEmojiType } from '../types/flyingEmojiType';
+import EmojiCell from './EmojiCell.vue';
 
 @Options({
   components: {
-    Emoji,
+    EmojiCell,
   },
 })
 export default class Background extends Vue {
-  private durationMS = 1000;
+  private durationMS = 500;
 
-  emojis: {[key:string]: FlyingEmoji} = {};
+  flyingEmojis: {[key:string]: FlyingEmojiType} = {};
 
   get emojiKeys(): string[] {
-    return Object.keys(this.emojis);
+    return Object.keys(this.flyingEmojis);
   }
 
-  fly(emoji: FlyingEmoji): void {
+  fly(emoji: FlyingEmojiType): void {
+    if ((this.deleteMap[this.timeNow])?.length > 100) {
+      return;
+    }
     const uuid = uuidv4();
-    this.emojis[uuid] = emoji;
+    this.flyingEmojis[uuid] = emoji;
     // setInterval を使って複数の絵文字のタイマーを共通化すると軽量化できるのでは？
-    setTimeout(() => {
-      delete this.emojis[uuid];
-    }, this.durationMS);
+
+    if ((this.deleteMap[this.timeNow])?.length > 0) {
+      this.deleteMap[this.timeNow].push(uuid);
+    } else {
+      this.deleteMap[this.timeNow] = [uuid];
+    }
+  }
+
+  timeNow = 0; // 0 - 50ms * 500ms = 10;
+
+  deleteMap: {[key:number]: string[]} = {
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+    8: [],
+    9: [],
+  };
+
+  deleteInterval():void {
+    this.timeNow = (this.timeNow + 1) % 10;
+    this.deleteMap[this.timeNow].forEach((deleteKey) => {
+      delete this.flyingEmojis[deleteKey];
+    });
+    this.deleteMap[this.timeNow] = [];
+  }
+
+  mounted():void {
+    console.log(this);
+    setInterval(this.deleteInterval, this.durationMS / 10);
   }
 }
 </script>
