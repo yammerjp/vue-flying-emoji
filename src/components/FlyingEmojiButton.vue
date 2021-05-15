@@ -70,12 +70,10 @@ export default class FlyingEmojiButton extends Vue {
     ];
 
     flyWithRefs(idx: number, ref: HTMLElement):void {
-      /*
-      // 負荷を未然に防止するためにボタンを押せなくしてもよいかも
+      // 負荷を未然に防止するためにボタンを押せなくしてみる
       if (this.emojiButtons[idx].isAnimation === true) {
         return;
       }
-      */
 
       this.emojiButtons[idx].isAnimation = true;
       const clientRect = ref.getBoundingClientRect();
@@ -128,10 +126,15 @@ export default class FlyingEmojiButton extends Vue {
     margin: 0; /* 絵文字の位置計算に用いるので必ず0 */
     padding: 0; /* 絵文字の位置計算に用いるので必ず0 */
     font-size: 24px;
+    user-select: none;
+}
+.fly-button:hover {
+  transform: scale(0.95);
 }
 .fly-button-wrapper {
     display: inline-block;
     margin: 12px;
+    user-select: none;
 }
 /*
 .fly-button:active {
@@ -146,10 +149,10 @@ export default class FlyingEmojiButton extends Vue {
 }
 @keyframes pressed {
   0% {
-    transform: scale(1);
+    transform: scale(0.95);
   }
-  50% {
-    transform: scale(0.5);
+  20% {
+    transform: scale(0.0);
   }
   100% {
     transform: scale(1);
