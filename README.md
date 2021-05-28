@@ -7,12 +7,16 @@
 - 下方の、次のような絵文字をクリックすると、画面のランダムな位置へ弾けます。
 - flyボタンを押すと、画面右上から絵文字が出現します。
 
-<img width="217" alt="スクリーンショット 2021-05-28 23 27 58" src="https://user-images.githubusercontent.com/29299532/119999839-230b8f00-c00d-11eb-87fc-7f9c5022784f.png">
-
 
 ## 特徴
 
 クリックするボタンの描画位置を取得しており、ボタンの描画位置が変わっても、ボタンから弾けるようなエフェクトが崩れないこと
+
+## Vue 2 への対応
+
+コンポーネントの保持するデータの更新を検知してもらうために、以下の代入を this.$set インスタンスメソッドに置き換えると動作します
+
+https://github.com/yammerjp/vue-flying-emoji/blob/5971c2dfbae0452f24cbc0d759f448fc85c65813/src/components/Background.vue#L34
 
 ## Project setup
 ```
