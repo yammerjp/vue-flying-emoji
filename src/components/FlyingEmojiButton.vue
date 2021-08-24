@@ -2,8 +2,8 @@
   <div class="flying-emoji-button-component">
     <div class="fly-button-wrapper">
       <button ref="button"
-        @click="preventIntervalTooShort($event.target)"
-        :class="{'fly-button': true, animation: isAnimation}"
+        @click="preventIntervalTooShort()"
+        :class="{'fly-button': true, animation: isAnimating}"
       >{{charactor}}</button>
     </div>
    <Background ref="background" />
@@ -31,32 +31,22 @@ export default class FlyingEmojiButton extends Vue {
       background: Background,
     };
 
-    $event!: {
-      target: HTMLElement,
-    };
-
-    private rootNodeWidth = 0;
-
-    private rootNodeHeight = 0;
-
     private charactor = '❤️'
 
-    private isAnimation = false
+    private isAnimating = false
 
-    preventIntervalTooShort(ref: HTMLElement): void {
-      if (this.isAnimation) {
+    preventIntervalTooShort(): void {
+      if (this.isAnimating) {
         return;
       }
-      this.fly3times(ref);
-      this.isAnimation = true;
+      this.isAnimating = true;
+      this.fly3times();
       setTimeout(() => {
-        this.isAnimation = false;
+        this.isAnimating = false;
       }, 300);
     }
 
-    private fly3times(ref: HTMLElement): void {
-      console.log(typeof ref);
-      // const {left, top} = ref.getBoundingClientRect();
+    private fly3times(): void {
       const { left, top } = this.$refs.button.getBoundingClientRect();
       this.fly(left, top);
       this.fly(left, top);
@@ -67,21 +57,10 @@ export default class FlyingEmojiButton extends Vue {
       this.$refs.background.fly({
         fromX: buttonX,
         fromY: buttonY,
-        toX: random() * this.rootNodeWidth,
-        toY: random() * this.rootNodeHeight,
+        toX: random() * document.documentElement.clientWidth,
+        toY: random() * document.documentElement.clientHeight,
         emoji: this.charactor,
       });
-    }
-
-    mounted():void {
-      const updateRootNodeWidthAndHeight = () => {
-        const rootNode = document.documentElement;
-        this.rootNodeWidth = rootNode.clientWidth;
-        this.rootNodeHeight = rootNode.clientHeight;
-        // console.log(`width: ${this.width}, height: ${this.height}`);
-      };
-      updateRootNodeWidthAndHeight();
-      window.addEventListener('resize', updateRootNodeWidthAndHeight);
     }
 }
 

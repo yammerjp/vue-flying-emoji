@@ -31,7 +31,8 @@ export default class Background extends Vue {
       return;
     }
     const uuid = uuidv4();
-    this.flyingEmojis[uuid] = emoji;
+    this.$set(this.flyingEmojis, uuid, emoji)
+    // this.flyingEmojis[uuid] = emoji;
     // setInterval を使って複数の絵文字のタイマーを共通化すると軽量化できるのでは？
 
     if ((this.deleteMap[this.timeNow])?.length > 0) {
