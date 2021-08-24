@@ -1,15 +1,11 @@
 <template>
   <div class="flying-emoji-button-component">
-    <div v-for="(b, idx) of emojiButtons" :key="idx" class="fly-button-wrapper">
-      <button
-        @click="flyWithRefs(idx, $event.target)"
-        :class="{'fly-button': true, animation: b.isAnimation}"
-      >{{b.str}}</button>
-    </div>
     <div class="fly-button-wrapper">
-      <button @click="flyFromLeftTop">fly</button>
+      <button ref="button"
+        @click="preventIntervalTooShort($event.target)"
+        :class="{'fly-button': true, animation: isAnimation}"
+      >{{charactor}}</button>
     </div>
-
    <Background ref="background" />
   </div>
 </template>
@@ -21,24 +17,6 @@ import HelloWorld from './HelloWorld.vue';
 import EmojiCell from './EmojiCell.vue';
 
 const { random } = Math;
-const emojiList = [
-  '😇',
-  '🤣',
-  '😎',
-  '😭',
-  '🤔',
-  '😂',
-  '😈',
-  '🤖',
-  '👋',
-  '👩‍🦰',
-  '🔥',
-  '🍤',
-  '🎉',
-  '🤩',
-];
-
-const randomEmojiStr = ():string => emojiList[Math.floor(random() * emojiList.length)];
 
 @Options({
   components: {
@@ -49,6 +27,7 @@ const randomEmojiStr = ():string => emojiList[Math.floor(random() * emojiList.le
 })
 export default class FlyingEmojiButton extends Vue {
     $refs!: {
+      button: HTMLButtonElement,
       background: Background,
     };
 
@@ -60,44 +39,38 @@ export default class FlyingEmojiButton extends Vue {
 
     private rootNodeHeight = 0;
 
-    private emojiButtons: {
-      str: string;
-      isAnimation: boolean;
-    }[] = [
-      { str: '😇', isAnimation: false },
-      { str: '❤️', isAnimation: false },
-      { str: '👍', isAnimation: false },
-    ];
+    private charactor = '❤️'
 
-    flyWithRefs(idx: number, ref: HTMLElement):void {
-      // 負荷を未然に防止するためにボタンを押せなくしてみる
-      if (this.emojiButtons[idx].isAnimation === true) {
+    private isAnimation = false
+
+    preventIntervalTooShort(ref: HTMLElement): void {
+      if (this.isAnimation) {
         return;
       }
-
-      this.emojiButtons[idx].isAnimation = true;
-      const clientRect = ref.getBoundingClientRect();
-      this.flyWithEmojiStr(this.emojiButtons[idx].str, clientRect.left, clientRect.top);
-      if (idx === 0) {
-        this.emojiButtons[idx].str = randomEmojiStr();
-      }
-      setTimeout(() => { this.emojiButtons[idx].isAnimation = false; }, 300);
+      this.fly3times(ref);
+      this.isAnimation = true;
+      setTimeout(() => {
+        this.isAnimation = false;
+      }, 300);
     }
 
-    flyFromLeftTop():void {
-      this.flyWithEmojiStr(randomEmojiStr(), this.rootNodeWidth, 0);
+    private fly3times(ref: HTMLElement): void {
+      console.log(typeof ref);
+      // const {left, top} = ref.getBoundingClientRect();
+      const { left, top } = this.$refs.button.getBoundingClientRect();
+      this.fly(left, top);
+      this.fly(left, top);
+      this.fly(left, top);
     }
 
-    private flyWithEmojiStr(emojiStr: string, buttonX: number, buttonY: number):void {
-      for (let i = 0; i < 3; i += 1) {
-        this.$refs.background.fly({
-          fromX: buttonX,
-          fromY: buttonY,
-          toX: random() * this.rootNodeWidth,
-          toY: random() * this.rootNodeHeight,
-          emoji: emojiStr,
-        });
-      }
+    private fly(buttonX: number, buttonY: number):void {
+      this.$refs.background.fly({
+        fromX: buttonX,
+        fromY: buttonY,
+        toX: random() * this.rootNodeWidth,
+        toY: random() * this.rootNodeHeight,
+        emoji: this.charactor,
+      });
     }
 
     mounted():void {
