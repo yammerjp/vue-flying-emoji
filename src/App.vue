@@ -1,15 +1,18 @@
 <template>
+  <div>
   <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   <span style="color: #eeeeee">__________________________________</span>
   <FlyingEmojiButton/>
+  </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
 import HelloWorld from './components/HelloWorld.vue';
 import FlyingEmojiButton from './components/FlyingEmojiButton.vue';
 
-@Options({
+@Component({
   components: {
     HelloWorld,
     FlyingEmojiButton,

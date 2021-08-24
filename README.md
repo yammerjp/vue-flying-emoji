@@ -1,6 +1,6 @@
 # vue-flying-emoji
 
-画面全体に弾けるスタンプボタンのコンポーネント Vue.js (Vue 3)
+画面全体に弾けるスタンプボタンのコンポーネント Vue.js (Vue 2)
 
 [デモサイト](https://yammer.jp/vue-flying-emoji/)
 
@@ -11,12 +11,6 @@
 ## 特徴
 
 クリックするボタンの描画位置を取得しており、ボタンの描画位置が変わっても、ボタンから弾けるようなエフェクトが崩れないこと
-
-## Vue 2 への対応
-
-コンポーネントの保持するデータの更新を検知してもらうために、以下の代入を this.$set インスタンスメソッドに置き換えると動作します
-
-https://github.com/yammerjp/vue-flying-emoji/blob/5971c2dfbae0452f24cbc0d759f448fc85c65813/src/components/Background.vue#L34
 
 ## Project setup
 ```

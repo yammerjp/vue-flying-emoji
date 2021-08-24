@@ -7,12 +7,13 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
 import { v4 as uuidv4 } from 'uuid';
 import { FlyingEmojiType } from '../types/flyingEmojiType';
 import EmojiCell from './EmojiCell.vue';
 
-@Options({
+@Component({
   components: {
     EmojiCell,
   },
@@ -31,7 +32,7 @@ export default class Background extends Vue {
       return;
     }
     const uuid = uuidv4();
-    this.$set(this.flyingEmojis, uuid, emoji)
+    this.$set(this.flyingEmojis, uuid, emoji);
     // this.flyingEmojis[uuid] = emoji;
     // setInterval を使って複数の絵文字のタイマーを共通化すると軽量化できるのでは？
 

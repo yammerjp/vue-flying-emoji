@@ -7,21 +7,16 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import Vue from 'vue';
+import { Component, Prop } from 'vue-property-decorator';
 import gsap from 'gsap';
 import { FlyingEmojiType } from '../types/flyingEmojiType';
 
-@Options({
-  props: {
-    flyingEmoji: Object,
-    duration: Number,
-  },
-})
-
+@Component
 export default class EmojiCell extends Vue {
-  flyingEmoji!: FlyingEmojiType;
+  @Prop(Object) flyingEmoji!: FlyingEmojiType;
 
-  duration!: number;
+  @Prop(Number) duration!: number;
 
   enter(el: HTMLElement, done: (()=>void)):void {
     const tl = gsap.timeline();

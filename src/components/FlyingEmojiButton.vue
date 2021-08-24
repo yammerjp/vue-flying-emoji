@@ -11,14 +11,15 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import Vue from 'vue';
+import { Component } from 'vue-property-decorator';
 import Background from './Background.vue';
 import HelloWorld from './HelloWorld.vue';
 import EmojiCell from './EmojiCell.vue';
 
 const { random } = Math;
 
-@Options({
+@Component({
   components: {
     Background,
     HelloWorld,

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -13,11 +13,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env",
-    ],
-    "typeRoots": [
-      "node_modules/@types",
-      "src/types",
+      "webpack-env"
     ],
     "paths": {
       "@/*": [
