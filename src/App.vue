@@ -1,25 +1,19 @@
 <template>
-  <div>
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  <span style="color: #eeeeee">__________________________________</span>
-  <FlyingEmojiButton emoji="😂"/>
-  </div>
+  <FlyingEmojiButton :emoji="emoji">
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import { Component, Prop } from 'vue-property-decorator';
 import FlyingEmojiButton from './components/FlyingEmojiButton.vue';
 
 @Component({
   components: {
-    HelloWorld,
     FlyingEmojiButton,
   },
 })
-
 export default class App extends Vue {
+  @Prop(String) emoji!: string
 }
 </script>
 
