@@ -4,15 +4,15 @@
       <button ref="button"
         @click="preventIntervalTooShort()"
         :class="{'fly-button': true, animation: isAnimating}"
-      >{{charactor}}</button>
+      >{{emoji}}</button>
     </div>
-   <Background ref="background" />
+   <Background ref="background"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import Background from './Background.vue';
 import HelloWorld from './HelloWorld.vue';
 import EmojiCell from './EmojiCell.vue';
@@ -32,7 +32,7 @@ export default class FlyingEmojiButton extends Vue {
       background: Background,
     };
 
-    private charactor = '❤️'
+    @Prop(String) emoji!: string
 
     private isAnimating = false
 
@@ -60,7 +60,7 @@ export default class FlyingEmojiButton extends Vue {
         fromY: buttonY,
         toX: random() * document.documentElement.clientWidth,
         toY: random() * document.documentElement.clientHeight,
-        emoji: this.charactor,
+        emoji: this.emoji,
       });
     }
 }

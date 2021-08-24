@@ -2,7 +2,7 @@
   <div>
   <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   <span style="color: #eeeeee">__________________________________</span>
-  <FlyingEmojiButton/>
+  <FlyingEmojiButton emoji="😂"/>
   </div>
 </template>
 
