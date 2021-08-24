@@ -23,26 +23,6 @@ export default class Background extends Vue {
 
   flyingEmojis: {[key:string]: FlyingEmojiType} = {};
 
-  get emojiKeys(): string[] {
-    return Object.keys(this.flyingEmojis);
-  }
-
-  fly(emoji: FlyingEmojiType): void {
-    if ((this.deleteMap[this.timeNow])?.length > 100) {
-      return;
-    }
-    const uuid = uuidv4();
-    this.$set(this.flyingEmojis, uuid, emoji);
-    // this.flyingEmojis[uuid] = emoji;
-    // setInterval を使って複数の絵文字のタイマーを共通化すると軽量化できるのでは？
-
-    if ((this.deleteMap[this.timeNow])?.length > 0) {
-      this.deleteMap[this.timeNow].push(uuid);
-    } else {
-      this.deleteMap[this.timeNow] = [uuid];
-    }
-  }
-
   timeNow = 0; // 0-9 // loop counter with setInterval();
 
   deleteMap: {[key:number]: string[]} = {
@@ -57,6 +37,26 @@ export default class Background extends Vue {
     8: [],
     9: [],
   };
+
+  get emojiKeys(): string[] {
+    return Object.keys(this.flyingEmojis);
+  }
+
+  fly(emoji: FlyingEmojiType): void {
+    if (this.deleteMap[this.timeNow].length > 100) {
+      return;
+    }
+    const uuid = uuidv4();
+    this.$set(this.flyingEmojis, uuid, emoji);
+    // this.flyingEmojis[uuid] = emoji;
+    // setInterval を使って複数の絵文字のタイマーを共通化すると軽量化できるのでは？
+
+    if (this.deleteMap[this.timeNow].length > 0) {
+      this.deleteMap[this.timeNow].push(uuid);
+    } else {
+      this.deleteMap[this.timeNow] = [uuid];
+    }
+  }
 
   deleteInterval():void {
     this.timeNow = (this.timeNow + 1) % 10;
